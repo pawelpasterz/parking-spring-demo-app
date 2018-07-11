@@ -9,11 +9,11 @@ import touk.demo.parkinglot.model.entity.Spots;
 
 public class ParkingSpotInfo {
 
-  final private Map<String, Integer> parkingStatus;
+  private final Map<String, Integer> parkingStatus;
 
   @JsonFormat(pattern = "dd-MM-yyyy")
   @DateTimeFormat(pattern = "dd-MM-yyyy")
-  final private Date created;
+  private final Date created;
 
   public ParkingSpotInfo() {
     parkingStatus = new HashMap<>();
@@ -34,9 +34,6 @@ public class ParkingSpotInfo {
 
   @Override
   public String toString() {
-    return "ParkingSpotInfo{" +
-        "parkingStatus=" + parkingStatus +
-        ", created=" + created +
-        '}';
+    return "ParkingSpotInfo{" + "parkingStatus=" + parkingStatus + ", created=" + created + '}';
   }
 }
