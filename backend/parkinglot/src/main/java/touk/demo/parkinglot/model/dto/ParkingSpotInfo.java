@@ -11,8 +11,8 @@ public class ParkingSpotInfo {
 
   final private Map<String, Integer> parkingStatus;
 
-  @JsonFormat(pattern = "dd/MM/yyyy")
-  @DateTimeFormat(pattern = "dd/MM/yyyy")
+  @JsonFormat(pattern = "dd-MM-yyyy")
+  @DateTimeFormat(pattern = "dd-MM-yyyy")
   final private Date created;
 
   public ParkingSpotInfo() {

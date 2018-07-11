@@ -22,6 +22,14 @@ public class Spots {
     return countNumber;
   }
 
+  public void setSpotStatus(String spotStatus) {
+    this.spotStatus = spotStatus;
+  }
+
+  public void setCountNumber(int countNumber) {
+    this.countNumber = countNumber;
+  }
+
   @Override
   public String toString() {
     return "Spots { "

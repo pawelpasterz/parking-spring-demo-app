@@ -58,11 +58,16 @@ public class DriverType {
 
   @Override
   public String toString() {
-    return "DriverType{" +
-        "roleName='" + roleName + '\'' +
-        ", firstHour=" + firstHour +
-        ", secondHour=" + secondHour +
-        ", thirdHour=" + thirdHour +
-        '}';
+    return "DriverType{"
+        + "roleName='"
+        + roleName
+        + '\''
+        + ", firstHour="
+        + firstHour
+        + ", secondHour="
+        + secondHour
+        + ", thirdHour="
+        + thirdHour
+        + '}';
   }
 }
