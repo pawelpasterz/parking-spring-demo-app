@@ -6,7 +6,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "driver_type")
-public class DriverType {
+public final class DriverType {
 
   @Id
   private String roleName;

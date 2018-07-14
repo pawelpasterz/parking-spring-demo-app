@@ -12,11 +12,12 @@ import touk.demo.parkinglot.model.dto.ParkingSpotInfo;
 import touk.demo.parkinglot.model.dto.ReservationConfirm;
 import touk.demo.parkinglot.model.entity.ParkingSpot;
 import touk.demo.parkinglot.model.entity.Spot;
-import touk.demo.parkinglot.model.errors.NoSpotAvailable;
-import touk.demo.parkinglot.model.interfaces.ParkingServiceResponse;
+import touk.demo.parkinglot.model.error.NoSpotAvailable;
+import touk.demo.parkinglot.model.response.ServiceResponse;
 import touk.demo.parkinglot.repository.DriverTypeRepository;
 import touk.demo.parkinglot.repository.ParkingSpotRepository;
 import touk.demo.parkinglot.repository.SpotsRepository;
+import touk.demo.parkinglot.service.calculation.CalculationService;
 
 @Service
 public class ParkingService implements ManagementService {
@@ -28,6 +29,7 @@ public class ParkingService implements ManagementService {
   private final BaseConverter<Spot, FreeSpotInfo> freeSpotConverter;
   private final BaseConverter<Spot, OccupiedSpotInfo> occupiedConverter;
   private final BaseConverter<ParkingSpot, ReservationConfirm> reservationConfirmConverter;
+  private final CalculationService calcService;
 
   @Autowired
   public ParkingService(
@@ -37,7 +39,8 @@ public class ParkingService implements ManagementService {
       BaseConverter<List<Spot>, ParkingSpotInfo> parkingInfoConverter,
       BaseConverter<Spot, FreeSpotInfo> freeSpotConverter,
       BaseConverter<Spot, OccupiedSpotInfo> occupiedConverter,
-      BaseConverter<ParkingSpot, ReservationConfirm> reservationConfirmConverter) {
+      BaseConverter<ParkingSpot, ReservationConfirm> reservationConfirmConverter,
+      CalculationService calcService) {
     this.spotsRepository = spotsRepository;
     this.driverTypeRepository = driverTypeRepository;
     this.parkingSpotRepository = parkingSpotRepository;
@@ -45,6 +48,7 @@ public class ParkingService implements ManagementService {
     this.freeSpotConverter = freeSpotConverter;
     this.occupiedConverter = occupiedConverter;
     this.reservationConfirmConverter = reservationConfirmConverter;
+    this.calcService = calcService;
   }
 
   @Override
@@ -64,7 +68,7 @@ public class ParkingService implements ManagementService {
 
   @Override
   @Transactional
-  public ParkingServiceResponse postSpotReservation(String driver, String carNumber) {
+  public ServiceResponse postSpotReservation(String driver, String carNumber) {
     if (hasFreeSpot()) {
       return NoSpotAvailable.getInstance();
     }

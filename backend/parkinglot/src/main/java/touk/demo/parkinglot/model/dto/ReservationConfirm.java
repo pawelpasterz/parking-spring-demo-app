@@ -3,9 +3,9 @@ package touk.demo.parkinglot.model.dto;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import java.time.LocalDate;
 import org.springframework.format.annotation.DateTimeFormat;
-import touk.demo.parkinglot.model.interfaces.ParkingServiceResponse;
+import touk.demo.parkinglot.model.response.ServiceResponse;
 
-public class ReservationConfirm implements ParkingServiceResponse {
+public class ReservationConfirm implements ServiceResponse {
 
   private String driverType;
   private int spotId;

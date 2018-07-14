@@ -6,7 +6,7 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "spots")
-public class Spot {
+public final class Spot {
 
   @Id
   private String spotStatus;

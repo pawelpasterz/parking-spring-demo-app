@@ -1,8 +1,8 @@
-package touk.demo.parkinglot.model.errors;
+package touk.demo.parkinglot.model.error;
 
-import touk.demo.parkinglot.model.interfaces.ParkingServiceResponse;
+import touk.demo.parkinglot.model.response.ServiceResponse;
 
-public final class NoSpotAvailable implements ParkingServiceResponse {
+public final class NoSpotAvailable implements ServiceResponse {
 
   private static class NoSpotAvailableLoader {
     private static final NoSpotAvailable INSTANCE = new NoSpotAvailable();

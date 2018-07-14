@@ -2,6 +2,7 @@ package touk.demo.parkinglot.autosetup;
 
 import java.util.Arrays;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 import touk.demo.parkinglot.model.entity.DriverType;
@@ -13,6 +14,9 @@ import touk.demo.parkinglot.repository.SpotsRepository;
 
 @Component
 public class DemoSetUpClass implements CommandLineRunner {
+
+  @Value("${parking.spot.limit}")
+  private int parkingLimit;
 
   private final DriverTypeRepository driverRepository;
   private final ParkingSpotRepository parkingRepository;
@@ -43,7 +47,7 @@ public class DemoSetUpClass implements CommandLineRunner {
   }
 
   private void setUpParkingDatabase() {
-    for (int i = 1; i <= 10; i++) {
+    for (int i = 1; i <= parkingLimit; i++) {
       parkingRepository.save(new ParkingSpot(false, null, null, null));
     }
   }
@@ -51,7 +55,7 @@ public class DemoSetUpClass implements CommandLineRunner {
   private void setUpSpotsDatabase() {
     Arrays.asList(
         new Spot("occupied", 0),
-        new Spot("free", 10)
+        new Spot("free", parkingLimit)
     ).forEach(spotsRepository::save);
   }
 }
