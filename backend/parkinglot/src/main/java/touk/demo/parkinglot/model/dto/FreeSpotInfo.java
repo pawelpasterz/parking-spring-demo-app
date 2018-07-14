@@ -9,8 +9,8 @@ public class FreeSpotInfo {
   private String status;
   private int number;
 
-  @JsonFormat(pattern = "dd-MM-yyyy")
-  @DateTimeFormat(pattern = "dd-MM-yyyy")
+  @JsonFormat(pattern = "yyyy-MM-dd@HH:mm:ss")
+  @DateTimeFormat(pattern = "yyyy-MM-dd@HH:mm:ss")
   private final Date created;
 
   public FreeSpotInfo() {

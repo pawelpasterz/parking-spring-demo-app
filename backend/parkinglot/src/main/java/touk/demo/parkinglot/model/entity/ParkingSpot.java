@@ -1,6 +1,6 @@
 package touk.demo.parkinglot.model.entity;
 
-import java.time.LocalDate;
+import java.util.Date;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -24,8 +24,8 @@ public final class ParkingSpot {
 
   private String carNumber;
 
-  @DateTimeFormat(iso = ISO.DATE)
-  private LocalDate startDate;
+  @DateTimeFormat(iso = ISO.DATE_TIME)
+  private Date startDate;
 
   @OneToOne(cascade = CascadeType.ALL)
   @JoinColumn(name = "role_type")
@@ -34,7 +34,7 @@ public final class ParkingSpot {
   public ParkingSpot() {}
 
   public ParkingSpot(
-      boolean occupied, String carNumber, LocalDate startDate, DriverType driverType) {
+      boolean occupied, String carNumber, Date startDate, DriverType driverType) {
     this.occupied = occupied;
     this.carNumber = carNumber;
     this.startDate = startDate;
@@ -49,11 +49,11 @@ public final class ParkingSpot {
     this.carNumber = carNumber;
   }
 
-  public LocalDate getStartDate() {
+  public Date getStartDate() {
     return startDate;
   }
 
-  public void setStartDate(LocalDate startDate) {
+  public void setStartDate(Date startDate) {
     this.startDate = startDate;
   }
 

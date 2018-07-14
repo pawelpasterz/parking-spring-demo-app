@@ -8,7 +8,7 @@ public final class InvalidSpotIdNumber implements ServiceResponse {
     private static final InvalidSpotIdNumber INSTANCE = new InvalidSpotIdNumber();
   }
 
-  private final String message = "Invalid spot id number";
+  private final String message = "Invalid reservation id number";
 
   private InvalidSpotIdNumber() {
     if (InvalidSpotIdNumberLoader.INSTANCE != null) {

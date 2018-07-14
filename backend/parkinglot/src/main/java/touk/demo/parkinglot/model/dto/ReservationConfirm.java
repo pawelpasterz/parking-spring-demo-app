@@ -1,7 +1,7 @@
 package touk.demo.parkinglot.model.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import java.time.LocalDate;
+import java.util.Date;
 import org.springframework.format.annotation.DateTimeFormat;
 import touk.demo.parkinglot.model.response.ServiceResponse;
 
@@ -10,9 +10,9 @@ public class ReservationConfirm implements ServiceResponse {
   private String driverType;
   private int spotId;
 
-  @JsonFormat(pattern = "dd-MM-yyyy")
-  @DateTimeFormat(pattern = "dd-MM-yyyy")
-  private LocalDate beginTime;
+  @JsonFormat(pattern = "yyyy-MM-dd@HH:mm:ss")
+  @DateTimeFormat(pattern = "yyyy-MM-dd@HH:mm:ss")
+  private Date beginTime;
 
   public String getDriverType() {
     return driverType;
@@ -22,7 +22,7 @@ public class ReservationConfirm implements ServiceResponse {
     return spotId;
   }
 
-  public LocalDate getBeginTime() {
+  public Date getBeginTime() {
     return beginTime;
   }
 
@@ -34,7 +34,7 @@ public class ReservationConfirm implements ServiceResponse {
     this.spotId = spotId;
   }
 
-  public void setBeginTime(LocalDate beginTime) {
+  public void setBeginTime(Date beginTime) {
     this.beginTime = beginTime;
   }
 

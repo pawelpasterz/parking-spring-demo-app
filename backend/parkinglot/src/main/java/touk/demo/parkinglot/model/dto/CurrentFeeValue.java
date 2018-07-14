@@ -1,20 +1,20 @@
 package touk.demo.parkinglot.model.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import java.time.LocalDate;
+import java.util.Date;
 import org.springframework.format.annotation.DateTimeFormat;
 import touk.demo.parkinglot.model.response.ServiceResponse;
 
-public class FeeValue implements ServiceResponse {
+public class CurrentFeeValue implements ServiceResponse {
 
   private int spotId;
   private String carNumber;
   private double fee;
   private int minutesTillNextHour;
 
-  @JsonFormat(pattern = "dd-MM-yyyy")
-  @DateTimeFormat(pattern = "dd-MM-yyyy")
-  private LocalDate startTime;
+  @JsonFormat(pattern = "yyyy-MM-dd@HH:mm:ss")
+  @DateTimeFormat(pattern = "yyyy-MM-dd@HH:mm:ss")
+  private Date startTime;
 
   public int getSpotId() {
     return spotId;
@@ -40,11 +40,11 @@ public class FeeValue implements ServiceResponse {
     this.fee = fee;
   }
 
-  public LocalDate getStartTime() {
+  public Date getStartTime() {
     return startTime;
   }
 
-  public void setStartTime(LocalDate startTime) {
+  public void setStartTime(Date startTime) {
     this.startTime = startTime;
   }
 

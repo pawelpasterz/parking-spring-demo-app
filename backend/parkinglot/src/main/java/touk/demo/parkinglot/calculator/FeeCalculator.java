@@ -1,40 +1,39 @@
 package touk.demo.parkinglot.calculator;
 
-import java.time.LocalDate;
-import java.time.temporal.ChronoUnit;
+import java.util.Date;
 import org.springframework.stereotype.Component;
-import touk.demo.parkinglot.model.dto.FeeValue;
+import touk.demo.parkinglot.model.dto.CurrentFeeValue;
 import touk.demo.parkinglot.model.entity.DriverType;
 import touk.demo.parkinglot.model.entity.ParkingSpot;
 
 @Component
-public class FeeCalculator implements Calculator<ParkingSpot, FeeValue> {
+public class FeeCalculator implements Calculator<ParkingSpot, CurrentFeeValue> {
 
-  public FeeValue getFeeValue(ParkingSpot spot) {
-    FeeValue feeValue = new FeeValue();
+  public CurrentFeeValue getFeeValue(ParkingSpot spot) {
+    CurrentFeeValue currentFeeValue = new CurrentFeeValue();
 
     DriverType driver = spot.getDriverType();
-    LocalDate startDate = spot.getStartDate();
-    feeValue.setStartTime(startDate);
-    LocalDate currentDate = LocalDate.now();
-    feeValue.setCarNumber(spot.getCarNumber());
+    Date startDate = spot.getStartDate();
+    currentFeeValue.setStartTime(startDate);
+    Date currentDate = new Date();
+    currentFeeValue.setCarNumber(spot.getCarNumber());
 
-    long minutes = ChronoUnit.MINUTES.between(startDate, currentDate) % 60;
+    int minutes = (int) ((currentDate.getTime() - startDate.getTime()) / 1000 / 60 % 60);
 
-    feeValue.setMinutesTillNextHour((int) minutes);
-    feeValue.setFee(calculateFee(minutes, driver));
+    currentFeeValue.setMinutesTillNextHour(60 - minutes);
+    currentFeeValue.setFee(calculateFee(minutes, driver));
 
-    return feeValue;
+    return currentFeeValue;
   }
 
-  private double calculateFee(long minutes, DriverType driver) {
+  private double calculateFee(int minutes, DriverType driver) {
     double fee = 0;
-    int hours = (int) minutes / 60;
+    int hours = minutes / 60;
 
-    // Two major cases, when spot was occupied for x hour(s) and:
+    // Two major cases, when reservation was occupied for x hour(s) and:
     // 1) 0 seconds should be x hour
     // 2) seconds != 0 should be x + 1 hour
-    if ((int) minutes / 60 != 0) {
+    if (minutes / 60 != 0 && minutes / 60 != 60) {
       hours++;
     }
 
