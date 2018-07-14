@@ -5,7 +5,7 @@ import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.Map;
 import org.springframework.format.annotation.DateTimeFormat;
-import touk.demo.parkinglot.model.entity.Spots;
+import touk.demo.parkinglot.model.entity.Spot;
 
 public class ParkingSpotInfo {
 
@@ -20,8 +20,8 @@ public class ParkingSpotInfo {
     created = LocalDate.now();
   }
 
-  public void add(Spots spots) {
-    parkingStatus.put(spots.getSpotStatus(), spots.getCountNumber());
+  public void add(Spot spot) {
+    parkingStatus.put(spot.getSpotStatus(), spot.getCountNumber());
   }
 
   public Map<String, Integer> getParkingStatus() {

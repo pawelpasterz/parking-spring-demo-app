@@ -1,6 +1,5 @@
 package touk.demo.parkinglot.controller;
 
-import javax.ws.rs.Path;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -50,7 +49,7 @@ public class ParkingSpotController {
   public ResponseEntity requestFreeSpot(
       @RequestParam(name = "driver") String driver,
       @RequestParam(name = "carNumber") String carNumber) {
-    return ResponseEntity.status(HttpStatus.CREATED)
+    return ResponseEntity.status(HttpStatus.OK)
         .body(service.postSpotReservation(driver, carNumber));
   }
 }

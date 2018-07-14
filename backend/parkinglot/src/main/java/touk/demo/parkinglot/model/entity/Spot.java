@@ -6,13 +6,18 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "spots")
-public class Spots {
+public class Spot {
 
   @Id
   private String spotStatus;
   private int countNumber;
 
-  public Spots() {}
+  public Spot() {}
+
+  public Spot(String spotStatus, int countNumber) {
+    this.spotStatus = spotStatus;
+    this.countNumber = countNumber;
+  }
 
   public String getSpotStatus() {
     return spotStatus;
@@ -32,7 +37,7 @@ public class Spots {
 
   @Override
   public String toString() {
-    return "Spots { "
+    return "Spot { "
         + "spotStatus = '"
         + spotStatus
         + '\''

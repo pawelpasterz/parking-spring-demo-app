@@ -3,7 +3,7 @@ package touk.demo.parkinglot.model.dto;
 import static org.junit.jupiter.api.Assertions.*;
 
 import org.junit.jupiter.api.Test;
-import touk.demo.parkinglot.model.entity.Spots;
+import touk.demo.parkinglot.model.entity.Spot;
 
 class ParkingSpotInfoTest {
 
@@ -11,10 +11,10 @@ class ParkingSpotInfoTest {
 
   @Test
   void shouldReturnSameValue() {
-    Spots spots = new Spots();
-    spots.setCountNumber(1);
-    spots.setSpotStatus("occupied");
-    info.add(spots);
+    Spot spot = new Spot();
+    spot.setCountNumber(1);
+    spot.setSpotStatus("occupied");
+    info.add(spot);
 
     assertEquals(info.getParkingStatus().get("occupied"), Integer.valueOf(1));
   }
