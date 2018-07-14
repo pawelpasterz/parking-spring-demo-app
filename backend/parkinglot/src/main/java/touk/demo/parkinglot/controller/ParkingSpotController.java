@@ -10,36 +10,49 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import touk.demo.parkinglot.service.ManagementService;
+import touk.demo.parkinglot.service.calculation.CalculationService;
 
 @RestController
 @RequestMapping("/spots")
 public class ParkingSpotController {
 
-  private ManagementService service;
+  private ManagementService mService;
+  private CalculationService cService;
 
   @Autowired
-  public ParkingSpotController(ManagementService service) {
-    this.service = service;
+  public ParkingSpotController(ManagementService mService,
+      CalculationService cService) {
+    this.mService = mService;
+    this.cService = cService;
   }
 
   @GetMapping
   public ResponseEntity getParkingSpotsInfo() {
-    return ResponseEntity.status(HttpStatus.OK).body(service.getParkingInfo());
+    return ResponseEntity
+        .status(HttpStatus.OK)
+        .body(mService.getParkingInfo());
   }
 
   @GetMapping("/info/{option}")
-  public ResponseEntity getSpecifiedSpotsCount(@PathVariable(value = "option") String option) {
+  public ResponseEntity getSpecifiedSpotsCount(
+      @PathVariable(value = "option") String option) {
     ResponseEntity response;
 
     switch (option) {
       case "free":
-        response = ResponseEntity.status(HttpStatus.OK).body(service.getFreeSpotNumber());
+        response = ResponseEntity
+            .status(HttpStatus.OK)
+            .body(mService.getFreeSpotNumber());
         break;
       case "occupied":
-        response = ResponseEntity.status(HttpStatus.OK).body(service.getOccupiedSpotNumber());
+        response = ResponseEntity
+            .status(HttpStatus.OK)
+            .body(mService.getOccupiedSpotNumber());
         break;
       default:
-        response = ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid option value");
+        response = ResponseEntity
+            .status(HttpStatus.BAD_REQUEST)
+            .body("Invalid option value");
     }
 
     return response;
@@ -50,6 +63,13 @@ public class ParkingSpotController {
       @RequestParam(name = "driver") String driver,
       @RequestParam(name = "carNumber") String carNumber) {
     return ResponseEntity.status(HttpStatus.OK)
-        .body(service.postSpotReservation(driver, carNumber));
+        .body(mService.postSpotReservation(driver, carNumber));
+  }
+
+  @GetMapping("/{id}")
+  public ResponseEntity getSpotInfo(@PathVariable(name = "id") int id) {
+    return ResponseEntity
+        .status(HttpStatus.OK)
+        .body(cService.getCurrentFee(id));
   }
 }
