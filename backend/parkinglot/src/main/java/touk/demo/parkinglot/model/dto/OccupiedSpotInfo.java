@@ -1,7 +1,7 @@
 package touk.demo.parkinglot.model.dto;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import java.util.Date;
+import java.time.LocalDate;
 import org.springframework.format.annotation.DateTimeFormat;
 
 public class OccupiedSpotInfo {
@@ -11,10 +11,10 @@ public class OccupiedSpotInfo {
 
   @JsonFormat(pattern = "dd-MM-yyyy")
   @DateTimeFormat(pattern = "dd-MM-yyyy")
-  private final Date created;
+  private final LocalDate created;
 
   public OccupiedSpotInfo() {
-    created = new Date();
+    created = LocalDate.now();
   }
 
   public String getStatus() {

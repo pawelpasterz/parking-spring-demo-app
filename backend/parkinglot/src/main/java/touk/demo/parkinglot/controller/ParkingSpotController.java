@@ -1,11 +1,14 @@
 package touk.demo.parkinglot.controller;
 
+import javax.ws.rs.Path;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import touk.demo.parkinglot.service.ManagementService;
 
@@ -26,8 +29,7 @@ public class ParkingSpotController {
   }
 
   @GetMapping("/info/{option}")
-  public ResponseEntity getSpecifiedSpotsCount(
-      @PathVariable(value = "option") String option) {
+  public ResponseEntity getSpecifiedSpotsCount(@PathVariable(value = "option") String option) {
     ResponseEntity response;
 
     switch (option) {
@@ -42,5 +44,13 @@ public class ParkingSpotController {
     }
 
     return response;
+  }
+
+  @PostMapping
+  public ResponseEntity requestFreeSpot(
+      @RequestParam(name = "driver") String driver,
+      @RequestParam(name = "carNumber") String carNumber) {
+    return ResponseEntity.status(HttpStatus.CREATED)
+        .body(service.postSpotReservation(driver, carNumber));
   }
 }
