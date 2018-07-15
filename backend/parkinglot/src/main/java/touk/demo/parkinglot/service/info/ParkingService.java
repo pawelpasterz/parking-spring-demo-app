@@ -1,4 +1,4 @@
-package touk.demo.parkinglot.service;
+package touk.demo.parkinglot.service.info;
 
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;

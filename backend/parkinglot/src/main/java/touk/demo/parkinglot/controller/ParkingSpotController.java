@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import touk.demo.parkinglot.model.error.InvalidSpotIdNumber;
 import touk.demo.parkinglot.model.response.ServiceResponse;
-import touk.demo.parkinglot.service.ManagementService;
+import touk.demo.parkinglot.service.info.ManagementService;
 import touk.demo.parkinglot.service.calculation.CalculationService;
 import touk.demo.parkinglot.service.reservation.ReservationService;
 

@@ -1,4 +1,4 @@
-package touk.demo.parkinglot.service;
+package touk.demo.parkinglot.service.info;
 
 import touk.demo.parkinglot.model.dto.FreeSpotInfo;
 import touk.demo.parkinglot.model.dto.OccupiedSpotInfo;

@@ -18,9 +18,9 @@ public class FeeCalculator implements Calculator<ParkingSpot, CurrentFeeValue> {
     Date currentDate = new Date();
     currentFeeValue.setCarNumber(spot.getCarNumber());
 
-    int minutes = (int) ((currentDate.getTime() - startDate.getTime()) / 1000 / 60 % 60);
+    int minutes = (int) ((currentDate.getTime() - startDate.getTime()) / 1000 / 60);
 
-    currentFeeValue.setMinutesTillNextHour(60 - minutes);
+    currentFeeValue.setMinutesTillNextHour(60 - minutes % 60);
     currentFeeValue.setFee(calculateFee(minutes, driver));
 
     return currentFeeValue;
@@ -33,7 +33,7 @@ public class FeeCalculator implements Calculator<ParkingSpot, CurrentFeeValue> {
     // Two major cases, when reservation was occupied for x hour(s) and:
     // 1) 0 seconds should be x hour
     // 2) seconds != 0 should be x + 1 hour
-    if (minutes / 60 != 0 || minutes == 0) {
+    if (minutes % 60 != 0 || minutes == 0) {
       hours++;
     }
 
