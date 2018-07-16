@@ -6,5 +6,5 @@ import touk.demo.parkinglot.model.response.ServiceResponse;
 public interface ReservationService {
 
   ServiceResponse postSpotReservation(String driver, String carNumber);
-  ServiceResponse closeSpotReservation(int id, ServiceResponse currentFeeValue);
+  ServiceResponse closeSpotReservation(int id, CurrentFeeValue currentFeeValue);
 }

@@ -59,11 +59,10 @@ public class SpotReservationService implements ReservationService {
 
   @Transactional
   @Override
-  public ServiceResponse closeSpotReservation(int id, ServiceResponse response) {
-    CurrentFeeValue currentFeeValue = (CurrentFeeValue) response;
+  public ServiceResponse closeSpotReservation(int id, CurrentFeeValue response) {
     ClosingFeeValue closingFeeValue = new ClosingFeeValue();
 
-    closingFeeValue.setFee(currentFeeValue.getFee());
+    closingFeeValue.setFee(response.getFee());
     closingFeeValue.setId(id);
 
     deleteSpotReservation(id);

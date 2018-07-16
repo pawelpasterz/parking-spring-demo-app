@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import touk.demo.parkinglot.model.dto.CurrentFeeValue;
 import touk.demo.parkinglot.model.error.InvalidSpotIdNumber;
 import touk.demo.parkinglot.model.response.ServiceResponse;
 import touk.demo.parkinglot.service.info.ManagementService;
@@ -90,6 +91,6 @@ public class ParkingSpotController {
 
     return ResponseEntity
         .status(HttpStatus.OK)
-        .body(rService.closeSpotReservation(id, response));
+        .body(rService.closeSpotReservation(id, (CurrentFeeValue)response));
   }
 }
