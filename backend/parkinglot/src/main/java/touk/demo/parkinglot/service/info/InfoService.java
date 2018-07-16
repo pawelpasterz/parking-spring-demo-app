@@ -11,7 +11,7 @@ import touk.demo.parkinglot.model.entity.Spot;
 import touk.demo.parkinglot.repository.SpotsRepository;
 
 @Service
-public class ParkingService implements ManagementService {
+public class InfoService implements ManagementService {
 
   private final SpotsRepository spotsRepository;
   private final BaseConverter<List<Spot>, ParkingSpotInfo> parkingInfoConverter;
@@ -19,7 +19,7 @@ public class ParkingService implements ManagementService {
   private final BaseConverter<Spot, OccupiedSpotInfo> occupiedConverter;
 
   @Autowired
-  public ParkingService(
+  public InfoService(
       SpotsRepository spotsRepository,
       BaseConverter<List<Spot>, ParkingSpotInfo> parkingInfoConverter,
       BaseConverter<Spot, FreeSpotInfo> freeSpotConverter,
@@ -44,5 +44,4 @@ public class ParkingService implements ManagementService {
   public OccupiedSpotInfo getOccupiedSpotNumber() {
     return occupiedConverter.convert(spotsRepository.findById("occupied").get());
   }
-
 }
