@@ -8,9 +8,9 @@ Parking lot REST server implementation. Simple demo, only backend. Spring Boot i
 3. Different fees for both types.
 
 ## Running demo
-1. docker is required
+1. Docker is required
 2. Run `start.sh` script.
 3. Enjoy!
 
 ## Closing app
-1. Run `'stop.sh` script
+1. Run `stop.sh` script
