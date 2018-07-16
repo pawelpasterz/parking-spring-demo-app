@@ -8,11 +8,9 @@ Parking lot REST server implementation. Simple demo, only backend. Spring Boot i
 3. Different fees for both types.
 
 ## Running demo
-1. Mysql is installed.
+1. docker is required
 2. Run `start.sh` script.
 3. Enjoy!
 
-### `start.sh` script steps
-1. Cleans current application compiled files
-2. Creates database for demo purposes
-3. Starts application
+## Closing app
+1. Run `'stop.sh` script
