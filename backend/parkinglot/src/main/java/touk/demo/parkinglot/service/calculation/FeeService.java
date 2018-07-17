@@ -1,12 +1,11 @@
 package touk.demo.parkinglot.service.calculation;
 
-import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import touk.demo.parkinglot.calculator.Calculator;
 import touk.demo.parkinglot.model.dto.CurrentFeeValue;
 import touk.demo.parkinglot.model.entity.ParkingSpot;
-import touk.demo.parkinglot.model.error.InvalidSpotIdNumber;
+import touk.demo.parkinglot.model.error.InvalidSpotIdNumberException;
 import touk.demo.parkinglot.model.response.ServiceResponse;
 import touk.demo.parkinglot.repository.ParkingSpotRepository;
 
@@ -24,14 +23,10 @@ public class FeeService implements CalculationService {
   }
 
   @Override
-  public ServiceResponse getCurrentFee(int id) {
-    Optional<ParkingSpot> spotOpt = repository.findById(id);
-
-    if (!spotOpt.isPresent() || !spotOpt.get().isOccupied()) {
-      return InvalidSpotIdNumber.getInstance();
-    }
-
-    return calculator.getFeeValue(spotOpt.get());
+  public ServiceResponse getCurrentFee(int id) throws InvalidSpotIdNumberException {
+    return repository.findById(id)
+        .filter(ParkingSpot::isOccupied)
+        .map(calculator::getFeeValue)
+        .orElseThrow(InvalidSpotIdNumberException::new);
   }
-
 }

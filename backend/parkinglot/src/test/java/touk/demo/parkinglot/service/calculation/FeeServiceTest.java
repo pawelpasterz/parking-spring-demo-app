@@ -17,7 +17,7 @@ import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import touk.demo.parkinglot.calculator.FeeCalculator;
 import touk.demo.parkinglot.model.dto.CurrentFeeValue;
 import touk.demo.parkinglot.model.entity.ParkingSpot;
-import touk.demo.parkinglot.model.error.InvalidSpotIdNumber;
+import touk.demo.parkinglot.model.error.InvalidSpotIdNumberException;
 import touk.demo.parkinglot.repository.ParkingSpotRepository;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -43,7 +43,7 @@ class FeeServiceTest {
     when(repository.findById(any(Integer.class)))
         .thenReturn(Optional.empty());
 
-    assertEquals(InvalidSpotIdNumber.class, service.getCurrentFee(1).getClass());
+    assertThrows(InvalidSpotIdNumberException.class, () -> service.getCurrentFee(1));
   }
 
   @Test
@@ -51,11 +51,11 @@ class FeeServiceTest {
     when(repository.findById(any(Integer.class)))
         .thenReturn(Optional.of(new ParkingSpot(false, null, null, null)));
 
-    assertEquals(InvalidSpotIdNumber.class, service.getCurrentFee(1).getClass());
+    assertThrows(InvalidSpotIdNumberException.class, () -> service.getCurrentFee(1));
   }
 
   @Test
-  void shouldReturnCurrentFeeValueObject() {
+  void shouldReturnCurrentFeeValueObject() throws InvalidSpotIdNumberException {
     ParkingSpot spot = new ParkingSpot(true, null, null, null);
 
     when(repository.findById(any(Integer.class)))

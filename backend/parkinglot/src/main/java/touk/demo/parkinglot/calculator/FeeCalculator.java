@@ -17,6 +17,7 @@ public class FeeCalculator implements Calculator<ParkingSpot, CurrentFeeValue> {
     currentFeeValue.setStartTime(startDate);
     Date currentDate = new Date();
     currentFeeValue.setCarNumber(spot.getCarNumber());
+    currentFeeValue.setSpotId(spot.getId());
 
     int minutes = (int) ((currentDate.getTime() - startDate.getTime()) / 1000 / 60);
 

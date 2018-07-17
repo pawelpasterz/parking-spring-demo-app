@@ -24,7 +24,7 @@ import touk.demo.parkinglot.model.dto.FreeSpotInfo;
 import touk.demo.parkinglot.model.dto.OccupiedSpotInfo;
 import touk.demo.parkinglot.model.dto.ParkingSpotInfo;
 import touk.demo.parkinglot.model.dto.ReservationConfirm;
-import touk.demo.parkinglot.model.error.InvalidSpotIdNumber;
+import touk.demo.parkinglot.model.error.InvalidSpotIdNumberException;
 import touk.demo.parkinglot.service.calculation.FeeService;
 import touk.demo.parkinglot.service.info.InfoService;
 import touk.demo.parkinglot.service.reservation.SpotReservationService;
@@ -176,7 +176,7 @@ class ParkingSpotControllerTest {
   void shouldReturnStatusBadRequest_closeReservation() throws Exception {
     int id = 1;
 
-    when(cService.getCurrentFee(id)).thenReturn(InvalidSpotIdNumber.getInstance());
+    when(cService.getCurrentFee(id)).thenThrow(InvalidSpotIdNumberException.class);
 
     MvcResult result = mockMvc
         .perform(post("/spots/" + id))

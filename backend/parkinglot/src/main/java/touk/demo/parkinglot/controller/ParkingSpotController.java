@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import touk.demo.parkinglot.model.dto.CurrentFeeValue;
 import touk.demo.parkinglot.model.error.InvalidSpotIdNumber;
-import touk.demo.parkinglot.model.response.ServiceResponse;
+import touk.demo.parkinglot.model.error.InvalidSpotIdNumberException;
 import touk.demo.parkinglot.service.info.ManagementService;
 import touk.demo.parkinglot.service.calculation.CalculationService;
 import touk.demo.parkinglot.service.reservation.ReservationService;
@@ -75,22 +75,43 @@ public class ParkingSpotController {
 
   @GetMapping("/{id}")
   public ResponseEntity getSpotInfo(@PathVariable(name = "id") int id) {
-    return ResponseEntity
+    ResponseEntity response;
+
+    try {
+
+      response = ResponseEntity
         .status(HttpStatus.OK)
         .body(cService.getCurrentFee(id));
+
+    } catch (InvalidSpotIdNumberException ex) {
+
+      response = ResponseEntity
+          .status(HttpStatus.BAD_REQUEST)
+          .body(InvalidSpotIdNumber.getInstance());
+    }
+
+    return response;
   }
 
   @PostMapping("/{id}")
   public ResponseEntity closeReservation(@PathVariable(name = "id") int id) {
-    ServiceResponse response = cService.getCurrentFee(id);
-    if (response instanceof InvalidSpotIdNumber) {
-      return ResponseEntity
+    ResponseEntity response;
+
+    try {
+
+      response = ResponseEntity
+          .status(HttpStatus.OK)
+          .body(rService
+              .closeSpotReservation(id, (CurrentFeeValue)cService.getCurrentFee(id)));
+
+    } catch (InvalidSpotIdNumberException ex) {
+
+      response = ResponseEntity
           .status(HttpStatus.BAD_REQUEST)
-          .body(response);
+          .body(InvalidSpotIdNumber.getInstance());
+
     }
 
-    return ResponseEntity
-        .status(HttpStatus.OK)
-        .body(rService.closeSpotReservation(id, (CurrentFeeValue)response));
+    return response;
   }
 }
