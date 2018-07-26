@@ -15,18 +15,18 @@ import touk.demo.parkinglot.repository.SpotsRepository;
 @Component
 public class DemoSetUpClass implements CommandLineRunner {
 
-  @Value("${parking.spot.limit}")
   private int parkingLimit;
-
   private final DriverTypeRepository driverRepository;
   private final ParkingSpotRepository parkingRepository;
   private final SpotsRepository spotsRepository;
 
   @Autowired
   public DemoSetUpClass(
+      @Value("${parking.spot.limit}") int parkingLimit,
       DriverTypeRepository driverRepository,
       ParkingSpotRepository parkingRepository,
       SpotsRepository spotsRepository) {
+    this.parkingLimit = parkingLimit;
     this.driverRepository = driverRepository;
     this.parkingRepository = parkingRepository;
     this.spotsRepository = spotsRepository;
@@ -40,10 +40,8 @@ public class DemoSetUpClass implements CommandLineRunner {
   }
 
   private void setUpDriverDatabase() {
-    Arrays.asList(
-        new DriverType("VIP", 0, 2, 1.2),
-        new DriverType("regular", 1, 2, 1.5)
-    ).forEach(driverRepository::save);
+    Arrays.asList(new DriverType("VIP", 0, 2, 1.2), new DriverType("regular", 1, 2, 1.5))
+        .forEach(driverRepository::save);
   }
 
   private void setUpParkingDatabase() {
@@ -53,9 +51,7 @@ public class DemoSetUpClass implements CommandLineRunner {
   }
 
   private void setUpSpotsDatabase() {
-    Arrays.asList(
-        new Spot("occupied", 0),
-        new Spot("free", parkingLimit)
-    ).forEach(spotsRepository::save);
+    Arrays.asList(new Spot("occupied", 0), new Spot("free", parkingLimit))
+        .forEach(spotsRepository::save);
   }
 }
