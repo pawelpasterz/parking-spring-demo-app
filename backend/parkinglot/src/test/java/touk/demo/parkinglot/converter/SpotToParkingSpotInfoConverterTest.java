@@ -22,22 +22,22 @@ class SpotToParkingSpotInfoConverterTest {
 
   @Test
   void shouldReturnParkingSpotInfoObject() {
-    assertEquals(ParkingSpotInfo.class, converter.convert(spots).getClass());
+    assertEquals(ParkingSpotInfo.class, converter.apply(spots).getClass());
   }
 
   @Test
   void shouldReturnMapSizeEqualsTwo() {
-    assertEquals(2, converter.convert(spots).getParkingStatus().size());
+    assertEquals(2, converter.apply(spots).getParkingStatus().size());
   }
 
   @Test
   void shouldReturnMapWithKeysOccupiedFree() {
-    assertTrue(converter.convert(spots).getParkingStatus().containsKey("occupied"));
-    assertTrue(converter.convert(spots).getParkingStatus().containsKey("free"));
+    assertTrue(converter.apply(spots).getParkingStatus().containsKey("occupied"));
+    assertTrue(converter.apply(spots).getParkingStatus().containsKey("free"));
   }
 
   @Test
   void shouldReturnValue10WithKeyOccupied() {
-    assertEquals(Integer.valueOf(10), converter.convert(spots).getParkingStatus().get("occupied"));
+    assertEquals(Integer.valueOf(10), converter.apply(spots).getParkingStatus().get("occupied"));
   }
 }

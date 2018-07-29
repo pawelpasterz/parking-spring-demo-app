@@ -20,7 +20,7 @@ class ParkingSpotToReservationConfirmConverterTest {
   @Test
   void shouldReturnReservationConfirmObject() {
     spot.setId(1);
-    assertEquals(ReservationConfirm.class, converter.convert(spot).getClass());
+    assertEquals(ReservationConfirm.class, converter.apply(spot).getClass());
   }
 
   @Test
@@ -29,18 +29,18 @@ class ParkingSpotToReservationConfirmConverterTest {
     spot.setStartDate(now);
     spot.setId(1);
 
-    assertEquals(now, converter.convert(spot).getBeginTime());
+    assertEquals(now, converter.apply(spot).getBeginTime());
   }
 
   @Test
   void shouldReturnReservationConfirmValidSpotId() {
     spot.setId(6);
 
-    assertEquals(6, converter.convert(spot).getSpotId());
+    assertEquals(6, converter.apply(spot).getSpotId());
   }
 
   @Test
   void shouldReturnReservationConfirmValidDriverType() {
-    assertEquals("VIP", converter.convert(spot).getDriverType());
+    assertEquals("VIP", converter.apply(spot).getDriverType());
   }
 }

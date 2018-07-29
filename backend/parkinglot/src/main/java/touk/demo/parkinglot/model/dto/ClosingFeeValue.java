@@ -1,25 +1,12 @@
 package touk.demo.parkinglot.model.dto;
 
-import touk.demo.parkinglot.model.response.ServiceResponse;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-public class ClosingFeeValue implements ServiceResponse {
+@NoArgsConstructor
+@Data
+public class ClosingFeeValue {
 
   private int id;
   private double fee;
-
-  public int getId() {
-    return id;
-  }
-
-  public void setId(int id) {
-    this.id = id;
-  }
-
-  public double getFee() {
-    return fee;
-  }
-
-  public void setFee(double fee) {
-    this.fee = fee;
-  }
 }

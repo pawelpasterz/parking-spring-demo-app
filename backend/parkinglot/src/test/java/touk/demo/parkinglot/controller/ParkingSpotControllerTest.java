@@ -6,6 +6,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import java.util.Date;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
@@ -20,11 +21,9 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import touk.demo.parkinglot.model.dto.ClosingFeeValue;
 import touk.demo.parkinglot.model.dto.CurrentFeeValue;
-import touk.demo.parkinglot.model.dto.FreeSpotInfo;
-import touk.demo.parkinglot.model.dto.OccupiedSpotInfo;
 import touk.demo.parkinglot.model.dto.ParkingSpotInfo;
 import touk.demo.parkinglot.model.dto.ReservationConfirm;
-import touk.demo.parkinglot.model.error.InvalidSpotIdNumberException;
+import touk.demo.parkinglot.model.dto.SpotInfo;
 import touk.demo.parkinglot.service.calculation.FeeService;
 import touk.demo.parkinglot.service.info.InfoService;
 import touk.demo.parkinglot.service.reservation.SpotReservationService;
@@ -51,14 +50,20 @@ class ParkingSpotControllerTest {
   @BeforeEach
   void setup() {
     MockitoAnnotations.initMocks(this);
-    mockMvc = MockMvcBuilders.standaloneSetup(controller).build();
+    mockMvc = MockMvcBuilders
+        .standaloneSetup(controller)
+        .build();
   }
 
   @Test
   void shouldReturnStatusOK_getParkingSpotsInfo() throws Exception {
     ParkingSpotInfo info = new ParkingSpotInfo();
-    info.getParkingStatus().put("free", 10);
-    info.getParkingStatus().put("occupied", 10);
+    info
+        .getParkingStatus()
+        .put("free", 10);
+    info
+        .getParkingStatus()
+        .put("occupied", 10);
 
     when(mService.getParkingInfo()).thenReturn(info);
 
@@ -67,54 +72,52 @@ class ParkingSpotControllerTest {
         .andExpect(status().isOk())
         .andReturn();
 
-    assertTrue(result.getResponse().getContentAsString().contains("free"));
-    assertTrue(result.getResponse().getContentAsString().contains("occupied"));
+    assertTrue(result
+        .getResponse()
+        .getContentAsString()
+        .contains("free"));
+    assertTrue(result
+        .getResponse()
+        .getContentAsString()
+        .contains("occupied"));
   }
 
   @Test
   void shouldReturnStatusOK_getSpecifiedSpotsCount_free() throws Exception {
     String option = "free";
 
-    FreeSpotInfo info = new FreeSpotInfo();
-    info.setStatus(option);
+    SpotInfo info = new SpotInfo(option, 10, new Date());
 
-    when(mService.getFreeSpotNumber()).thenReturn(info);
+    when(mService.getOptionSpotInfo(option)).thenReturn(info);
 
     MvcResult result = mockMvc
         .perform(get("/spots/info/" + option))
         .andExpect(status().isOk())
         .andReturn();
 
-    assertTrue(result.getResponse().getContentAsString().contains(option));
+    assertTrue(result
+        .getResponse()
+        .getContentAsString()
+        .contains(option));
   }
 
   @Test
   void shouldReturnStatusOK_getSpecifiedSpotsCount_occupied() throws Exception {
     String option = "occupied";
 
-    OccupiedSpotInfo info = new OccupiedSpotInfo();
-    info.setStatus(option);
+    SpotInfo info = new SpotInfo(option, 10, new Date());
 
-    when(mService.getOccupiedSpotNumber()).thenReturn(info);
+    when(mService.getOptionSpotInfo(option)).thenReturn(info);
 
     MvcResult result = mockMvc
         .perform(get("/spots/info/" + option))
         .andExpect(status().isOk())
         .andReturn();
 
-    assertTrue(result.getResponse().getContentAsString().contains(option));
-  }
-
-  @Test
-  void shouldReturnBadRequest_getSpecifiedSpotsCount() throws Exception {
-    String option = "bad_request";
-
-    MvcResult result = mockMvc
-        .perform(get("/spots/info/" + option))
-        .andExpect(status().isBadRequest())
-        .andReturn();
-
-    assertEquals("Invalid option value", result.getResponse().getContentAsString());
+    assertTrue(result
+        .getResponse()
+        .getContentAsString()
+        .contains(option));
   }
 
   @Test
@@ -129,10 +132,13 @@ class ParkingSpotControllerTest {
 
     MvcResult result = mockMvc
         .perform(post("/spots?driver=" + driver + "&carNumber=" + number))
-        .andExpect(status().isOk())
+        .andExpect(status().isCreated())
         .andReturn();
 
-    assertTrue(result.getResponse().getContentAsString().contains(driver));
+    assertTrue(result
+        .getResponse()
+        .getContentAsString()
+        .contains(driver));
   }
 
   @Test
@@ -150,7 +156,10 @@ class ParkingSpotControllerTest {
         .andExpect(status().isOk())
         .andReturn();
 
-    assertTrue(result.getResponse().getContentAsString().contains(carNumber));
+    assertTrue(result
+        .getResponse()
+        .getContentAsString()
+        .contains(carNumber));
   }
 
   @Test
@@ -169,20 +178,9 @@ class ParkingSpotControllerTest {
         .andExpect(status().isOk())
         .andReturn();
 
-    assertTrue(result.getResponse().getContentAsString().contains("12.36"));
-  }
-
-  @Test
-  void shouldReturnStatusBadRequest_closeReservation() throws Exception {
-    int id = 1;
-
-    when(cService.getCurrentFee(id)).thenThrow(InvalidSpotIdNumberException.class);
-
-    MvcResult result = mockMvc
-        .perform(post("/spots/" + id))
-        .andExpect(status().isBadRequest())
-        .andReturn();
-
-    assertTrue(result.getResponse().getContentAsString().contains("Invalid"));
+    assertTrue(result
+        .getResponse()
+        .getContentAsString()
+        .contains("12.36"));
   }
 }

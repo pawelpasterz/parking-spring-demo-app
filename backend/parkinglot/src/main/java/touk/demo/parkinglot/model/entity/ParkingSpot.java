@@ -9,17 +9,26 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.format.annotation.DateTimeFormat.ISO;
 
+@RequiredArgsConstructor
+@Data
 @Entity
 @Table(name = "parking_spots")
 public final class ParkingSpot {
 
   @Id
+  @NonNull
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private int id;
 
+  @NonNull
   private boolean occupied;
 
   private String carNumber;
@@ -31,70 +40,15 @@ public final class ParkingSpot {
   @JoinColumn(name = "role_type")
   private DriverType driverType;
 
-  public ParkingSpot() {}
-
   public ParkingSpot(
-      boolean occupied, String carNumber, Date startDate, DriverType driverType) {
+      boolean occupied,
+      String carNumber,
+      Date startDate,
+      DriverType driverType
+  ) {
     this.occupied = occupied;
     this.carNumber = carNumber;
     this.startDate = startDate;
     this.driverType = driverType;
-  }
-
-  public String getCarNumber() {
-    return carNumber;
-  }
-
-  public void setCarNumber(String carNumber) {
-    this.carNumber = carNumber;
-  }
-
-  public Date getStartDate() {
-    return startDate;
-  }
-
-  public void setStartDate(Date startDate) {
-    this.startDate = startDate;
-  }
-
-  public DriverType getDriverType() {
-    return driverType;
-  }
-
-  public void setDriverType(DriverType driverType) {
-    this.driverType = driverType;
-  }
-
-  public boolean isOccupied() {
-    return occupied;
-  }
-
-  public void setOccupied(boolean occupied) {
-    this.occupied = occupied;
-  }
-
-  public int getId() {
-    return id;
-  }
-
-  public void setId(int id) {
-    this.id = id;
-  }
-
-  @Override
-  public String toString() {
-    return "ParkingSpot{"
-        + "id="
-        + id
-        + ", occupied="
-        + occupied
-        + ", carNumber='"
-        + carNumber
-        + '\''
-        + ", startDate="
-        + startDate
-        + ", driverType="
-        + driverType
-        + '}';
   }
 }

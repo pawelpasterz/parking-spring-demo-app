@@ -1,17 +1,18 @@
 package touk.demo.parkinglot.converter;
 
 import java.util.List;
+import java.util.function.Function;
 import org.springframework.stereotype.Component;
 import touk.demo.parkinglot.model.dto.ParkingSpotInfo;
 import touk.demo.parkinglot.model.entity.Spot;
 
 @Component
-public class SpotToParkingSpotInfoConverter implements BaseConverter<List<Spot>, ParkingSpotInfo> {
+public class SpotToParkingSpotInfoConverter implements Function<List<Spot>, ParkingSpotInfo> {
 
   @Override
-  public ParkingSpotInfo convert(List<Spot> from) {
+  public ParkingSpotInfo apply(List<Spot> spots) {
     ParkingSpotInfo info = new ParkingSpotInfo();
-    from.forEach(info::add);
+    spots.forEach(info::add);
     return info;
   }
 }

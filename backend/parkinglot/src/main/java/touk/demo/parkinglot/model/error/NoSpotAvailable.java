@@ -1,26 +1,17 @@
 package touk.demo.parkinglot.model.error;
 
-import touk.demo.parkinglot.model.response.ServiceResponse;
+import lombok.Getter;
 
-public final class NoSpotAvailable implements ServiceResponse {
+@Getter
+public final class NoSpotAvailable {
 
-  private static class NoSpotAvailableLoader {
-    private static final NoSpotAvailable INSTANCE = new NoSpotAvailable();
-  }
+  private final int status;
+  private final String message;
+  private final long timeStamp;
 
-  private final String message = "No parking spots available";
-
-  private NoSpotAvailable() {
-    if (NoSpotAvailableLoader.INSTANCE != null) {
-      throw new IllegalStateException("Already instantiated");
-    }
-  }
-
-  public static NoSpotAvailable getInstance() {
-    return NoSpotAvailableLoader.INSTANCE;
-  }
-
-  public String getMessage() {
-    return message;
+  public NoSpotAvailable(int status, String message, long timeStamp) {
+    this.status = status;
+    this.message = message;
+    this.timeStamp = timeStamp;
   }
 }

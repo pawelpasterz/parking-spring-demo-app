@@ -1,47 +1,40 @@
 package touk.demo.parkinglot.service.info;
 
-import java.util.List;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
+import lombok.NonNull;
 import org.springframework.stereotype.Service;
-import touk.demo.parkinglot.converter.BaseConverter;
-import touk.demo.parkinglot.model.dto.FreeSpotInfo;
-import touk.demo.parkinglot.model.dto.OccupiedSpotInfo;
+import touk.demo.parkinglot.converter.SpotToParkingSpotInfoConverter;
+import touk.demo.parkinglot.converter.SpotToSpotInfoConverter;
 import touk.demo.parkinglot.model.dto.ParkingSpotInfo;
-import touk.demo.parkinglot.model.entity.Spot;
+import touk.demo.parkinglot.model.dto.SpotInfo;
+import touk.demo.parkinglot.model.error.InvalidOptionRequestException;
 import touk.demo.parkinglot.repository.SpotsRepository;
 
+@AllArgsConstructor
 @Service
 public class InfoService implements ManagementService {
 
+  @NonNull
   private final SpotsRepository spotsRepository;
-  private final BaseConverter<List<Spot>, ParkingSpotInfo> parkingInfoConverter;
-  private final BaseConverter<Spot, FreeSpotInfo> freeSpotConverter;
-  private final BaseConverter<Spot, OccupiedSpotInfo> occupiedConverter;
 
-  @Autowired
-  public InfoService(
-      SpotsRepository spotsRepository,
-      BaseConverter<List<Spot>, ParkingSpotInfo> parkingInfoConverter,
-      BaseConverter<Spot, FreeSpotInfo> freeSpotConverter,
-      BaseConverter<Spot, OccupiedSpotInfo> occupiedConverter) {
-    this.spotsRepository = spotsRepository;
-    this.parkingInfoConverter = parkingInfoConverter;
-    this.freeSpotConverter = freeSpotConverter;
-    this.occupiedConverter = occupiedConverter;
-  }
+  @NonNull
+  private final SpotToParkingSpotInfoConverter parkingInfoConverter;
+  
+  @NonNull
+  private final SpotToSpotInfoConverter spotConverter;
 
   @Override
   public ParkingSpotInfo getParkingInfo() {
-    return parkingInfoConverter.convert(spotsRepository.findAll());
+
+    return parkingInfoConverter.apply(spotsRepository.findAll());
   }
 
   @Override
-  public FreeSpotInfo getFreeSpotNumber() {
-    return freeSpotConverter.convert(spotsRepository.findById("free").get());
-  }
-
-  @Override
-  public OccupiedSpotInfo getOccupiedSpotNumber() {
-    return occupiedConverter.convert(spotsRepository.findById("occupied").get());
+  public SpotInfo getOptionSpotInfo(String option) throws InvalidOptionRequestException {
+    return spotsRepository
+        .findById(option)
+        .map(spotConverter)
+        .orElseThrow(() -> new InvalidOptionRequestException(
+            "Incorrect option value (should be either free or occupied) -- " + option));
   }
 }

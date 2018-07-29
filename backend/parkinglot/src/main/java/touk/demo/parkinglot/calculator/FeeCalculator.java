@@ -1,30 +1,27 @@
 package touk.demo.parkinglot.calculator;
 
 import java.util.Date;
+import java.util.function.Function;
 import org.springframework.stereotype.Component;
 import touk.demo.parkinglot.model.dto.CurrentFeeValue;
 import touk.demo.parkinglot.model.entity.DriverType;
 import touk.demo.parkinglot.model.entity.ParkingSpot;
 
 @Component
-public class FeeCalculator implements Calculator<ParkingSpot, CurrentFeeValue> {
+public class FeeCalculator implements Function<ParkingSpot, CurrentFeeValue> {
 
-  public CurrentFeeValue getFeeValue(ParkingSpot spot) {
-    CurrentFeeValue currentFeeValue = new CurrentFeeValue();
-
-    DriverType driver = spot.getDriverType();
+  public CurrentFeeValue apply(ParkingSpot spot) {
     Date startDate = spot.getStartDate();
-    currentFeeValue.setStartTime(startDate);
-    Date currentDate = new Date();
-    currentFeeValue.setCarNumber(spot.getCarNumber());
-    currentFeeValue.setSpotId(spot.getId());
 
-    int minutes = (int) ((currentDate.getTime() - startDate.getTime()) / 1000 / 60);
+    int minutes = (int) ((new Date().getTime() - startDate.getTime()) / 1000 / 60);
 
-    currentFeeValue.setMinutesTillNextHour(60 - minutes % 60);
-    currentFeeValue.setFee(calculateFee(minutes, driver));
-
-    return currentFeeValue;
+    return new CurrentFeeValue(
+        spot.getId(),
+        spot.getCarNumber(),
+        calculateFee(minutes, spot.getDriverType()),
+        60 - minutes % 60,
+        startDate
+    );
   }
 
   private double calculateFee(int minutes, DriverType driver) {

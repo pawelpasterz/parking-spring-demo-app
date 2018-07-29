@@ -1,10 +1,11 @@
 package touk.demo.parkinglot.service.reservation;
 
+import touk.demo.parkinglot.model.dto.ClosingFeeValue;
 import touk.demo.parkinglot.model.dto.CurrentFeeValue;
-import touk.demo.parkinglot.model.response.ServiceResponse;
+import touk.demo.parkinglot.model.dto.ReservationConfirm;
 
 public interface ReservationService {
 
-  ServiceResponse postSpotReservation(String driver, String carNumber);
-  ServiceResponse closeSpotReservation(int id, CurrentFeeValue currentFeeValue);
+  ReservationConfirm postSpotReservation(String driver, String carNumber);
+  ClosingFeeValue closeSpotReservation(int id, CurrentFeeValue currentFeeValue);
 }

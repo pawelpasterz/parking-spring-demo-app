@@ -46,7 +46,7 @@ public class DemoSetUpClass implements CommandLineRunner {
 
   private void setUpParkingDatabase() {
     for (int i = 1; i <= parkingLimit; i++) {
-      parkingRepository.save(new ParkingSpot(false, null, null, null));
+      parkingRepository.save(new ParkingSpot(i, false));
     }
   }
 

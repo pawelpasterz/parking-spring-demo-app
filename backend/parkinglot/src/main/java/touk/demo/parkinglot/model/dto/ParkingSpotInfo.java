@@ -28,10 +28,6 @@ public class ParkingSpotInfo {
     return parkingStatus;
   }
 
-  public Date getCreated() {
-    return created;
-  }
-
   @Override
   public String toString() {
     return "ParkingSpotInfo{" + "parkingStatus=" + parkingStatus + ", created=" + created + '}';

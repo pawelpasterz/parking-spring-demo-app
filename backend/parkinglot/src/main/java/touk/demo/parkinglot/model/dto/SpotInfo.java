@@ -4,18 +4,16 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import java.util.Date;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
 
-@NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class ReservationConfirm {
+public class SpotInfo {
 
-  private int spotId;
-  private String driverType;
+  private final String status;
+  private final int number;
 
   @JsonFormat(pattern = "yyyy-MM-dd@HH:mm:ss")
   @DateTimeFormat(pattern = "yyyy-MM-dd@HH:mm:ss")
-  private Date beginTime;
+  private final Date created;
 }

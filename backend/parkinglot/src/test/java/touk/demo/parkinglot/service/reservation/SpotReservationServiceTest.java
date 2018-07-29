@@ -1,6 +1,7 @@
 package touk.demo.parkinglot.service.reservation;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
@@ -16,14 +17,14 @@ import org.mockito.MockitoAnnotations;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
-import touk.demo.parkinglot.converter.BaseConverter;
+import touk.demo.parkinglot.converter.ParkingSpotToReservationConfirmConverter;
 import touk.demo.parkinglot.model.dto.ClosingFeeValue;
 import touk.demo.parkinglot.model.dto.CurrentFeeValue;
 import touk.demo.parkinglot.model.dto.ReservationConfirm;
 import touk.demo.parkinglot.model.entity.DriverType;
 import touk.demo.parkinglot.model.entity.ParkingSpot;
 import touk.demo.parkinglot.model.entity.Spot;
-import touk.demo.parkinglot.model.error.NoSpotAvailable;
+import touk.demo.parkinglot.model.error.NoSpotAvailableException;
 import touk.demo.parkinglot.repository.DriverTypeRepository;
 import touk.demo.parkinglot.repository.ParkingSpotRepository;
 import touk.demo.parkinglot.repository.SpotsRepository;
@@ -42,7 +43,7 @@ class SpotReservationServiceTest {
   private ParkingSpotRepository parkingSpotRepository;
 
   @Mock
-  private BaseConverter<ParkingSpot, ReservationConfirm> reservationConfirmConverter;
+  private ParkingSpotToReservationConfirmConverter reservationConfirmConverter;
 
   @InjectMocks
   private SpotReservationService service;
@@ -57,21 +58,26 @@ class SpotReservationServiceTest {
   void shouldReturnConfirmObjectWhenPostingNewObjectToDatabase() {
     setMocksForPost();
 
-    assertEquals(ReservationConfirm.class, service.postSpotReservation("VIP", "test").getClass());
+    assertEquals(
+        ReservationConfirm.class,
+        service
+            .postSpotReservation("VIP", "test")
+            .getClass()
+    );
   }
 
   @Test
   void shouldReturnVIPConfirmObject() {
     setMocksForPost();
 
-    ReservationConfirm check = (ReservationConfirm)service.postSpotReservation("VIP", "test");
+    ReservationConfirm check = (ReservationConfirm) service.postSpotReservation("VIP", "test");
 
     assertEquals(1, check.getSpotId());
     assertEquals("VIP", check.getDriverType());
   }
 
   @Test
-  void shouldReturnInvalidSpotIdObjectWIthMessage() {
+  void shouldThrowInvalidSpotIdObjectWithMessage() {
     setMocksForPost();
 
     Spot spot = new Spot("free", 0);
@@ -79,7 +85,7 @@ class SpotReservationServiceTest {
     when(spotsRepository.findById(any(String.class)))
         .thenReturn(spotOpt);
 
-    assertEquals(NoSpotAvailable.class, service.postSpotReservation("VIP", "test").getClass());
+    assertThrows(NoSpotAvailableException.class, () -> service.postSpotReservation("VIP", "test"));
   }
 
   @Test
@@ -90,7 +96,12 @@ class SpotReservationServiceTest {
     value.setSpotId(1);
     value.setFee(2.5);
 
-    assertEquals(ClosingFeeValue.class, service.closeSpotReservation(1, value).getClass());
+    assertEquals(
+        ClosingFeeValue.class,
+        service
+            .closeSpotReservation(1, value)
+            .getClass()
+    );
   }
 
   private void setMocksForPost() {
@@ -123,7 +134,7 @@ class SpotReservationServiceTest {
     ReservationConfirm confirm = new ReservationConfirm();
     confirm.setSpotId(1);
     confirm.setDriverType("VIP");
-    when(reservationConfirmConverter.convert(any(ParkingSpot.class)))
+    when(reservationConfirmConverter.apply(any(ParkingSpot.class)))
         .thenReturn(confirm);
   }
 

@@ -65,7 +65,7 @@ class FeeServiceTest {
     value.setFee(2.5);
     value.setSpotId(1);
 
-    when(calculator.getFeeValue(any(ParkingSpot.class)))
+    when(calculator.apply(any(ParkingSpot.class)))
         .thenReturn(value);
 
     CurrentFeeValue check = (CurrentFeeValue)service.getCurrentFee(1);
