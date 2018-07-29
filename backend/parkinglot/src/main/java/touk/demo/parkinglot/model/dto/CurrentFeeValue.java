@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.format.annotation.DateTimeFormat.ISO;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -17,7 +18,7 @@ public class CurrentFeeValue {
   private double fee;
   private int minutesTillNextHour;
 
-  @JsonFormat(pattern = "yyyy-MM-dd@HH:mm:ss")
-  @DateTimeFormat(pattern = "yyyy-MM-dd@HH:mm:ss")
+  @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MMM-dd HH:mm:ss ")
+  @DateTimeFormat(iso = ISO.DATE_TIME)
   private Date startTime;
 }

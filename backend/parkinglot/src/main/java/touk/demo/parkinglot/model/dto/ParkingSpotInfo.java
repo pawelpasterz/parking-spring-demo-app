@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 import lombok.Getter;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.format.annotation.DateTimeFormat.ISO;
 import touk.demo.parkinglot.model.entity.Spot;
 
 public class ParkingSpotInfo {
@@ -13,8 +14,8 @@ public class ParkingSpotInfo {
   @Getter
   private final Map<String, Integer> parkingStatus = new HashMap<>();
 
-  @JsonFormat(pattern = "yyyy-MM-dd@HH:mm:ss")
-  @DateTimeFormat(pattern = "yyyy-MM-dd@HH:mm:ss")
+  @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MMM-dd HH:mm:ss ")
+  @DateTimeFormat(iso = ISO.DATE_TIME)
   private final Date created =  new Date();
 
   public void add(Spot spot) {
